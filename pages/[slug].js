@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import Head from "next/head";
 import {
@@ -204,6 +205,8 @@ export default function () {
   const [dobDate, setDobDate] = React.useState("");
   const [dobMonth, setDobMonth] = React.useState("");
   const [dobYear, setDobYear] = React.useState("");
+  const router = useRouter();
+  const { slug } = router.query;
   const datePickerModalProps = {
     showModal,
     setShowModal,
@@ -235,10 +238,14 @@ export default function () {
     }
   }
   React.useEffect(() => {
+    if (slug && slug.length === 4) {
+      setCheckYear(slug);
+      openModalWhenCheckYearIsValid(checkYear);
+    }
     if (checkYear.length === 4) {
       openModalWhenCheckYearIsValid(checkYear);
     }
-  }, [checkYear]);
+  }, [checkYear, slug]);
   return (
     <>
       <Head>
