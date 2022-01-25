@@ -8,15 +8,15 @@ import {
 } from "../src/components";
 
 export default function App() {
-  const [showModal, setShowModal] = React.useState(false);
+  const [showDatePicker, setShowDatePicker] = React.useState(false);
   const [showAge, setShowAge] = React.useState(false);
-  const [checkYear, setCheckYear] = React.useState("");
+  const [yearToBeChecked, setYearToBeChecked] = React.useState("");
   const [dobDate, setDobDate] = React.useState("");
   const [dobMonth, setDobMonth] = React.useState("");
   const [dobYear, setDobYear] = React.useState("");
   const datePickerModalProps = {
-    showModal,
-    setShowModal,
+    showDatePicker,
+    setShowDatePicker,
     setShowAge,
     dobDate,
     setDobDate,
@@ -24,9 +24,9 @@ export default function App() {
     setDobMonth,
     dobYear,
     setDobYear,
-    checkYear,
+    yearToBeChecked,
   };
-  const getAgeModalProps = {
+  const showAgeModalProps = {
     showAge,
     setShowAge,
     dobDate,
@@ -35,24 +35,25 @@ export default function App() {
     setDobMonth,
     dobYear,
     setDobYear,
-    checkYear,
+    yearToBeChecked,
   };
-  function openModalWhenCheckYearIsValid(year) {
+  function openModalWhenYearToBeCheckedIsValid(year) {
     if (year > 1900 && year < new Date().getFullYear()) {
-      setShowModal(true);
+      setShowDatePicker(true);
     } else {
-      setShowModal(false);
+      setShowDatePicker(false);
     }
   }
   React.useEffect(() => {
-    if (checkYear.length === 4) {
-      openModalWhenCheckYearIsValid(checkYear);
+    if (yearToBeChecked.length === 4) {
+      openModalWhenYearToBeCheckedIsValid(yearToBeChecked);
     }
-  }, [checkYear]);
+  }, [yearToBeChecked]);
+
   return (
     <>
       <Head>
-        <title>How old was I in {checkYear}?</title>
+        <title>How old was I in {yearToBeChecked}?</title>
       </Head>
       <Center
         _light={{ bg: "coolGray.50" }}
@@ -62,7 +63,7 @@ export default function App() {
         <HStack alignItems="center">
           <Heading size="2xl">How old was I in </Heading>
           <Input
-            onChangeText={setCheckYear}
+            onChangeText={setYearToBeChecked}
             w="90px"
             pb="1"
             fontSize="3xl"
@@ -73,7 +74,7 @@ export default function App() {
         </HStack>
         <ColorSwitcher />
         <DatePickerModal {...datePickerModalProps} />
-        <ShowAgeModal {...getAgeModalProps} />
+        <ShowAgeModal {...showAgeModalProps} />
       </Center>
     </>
   );

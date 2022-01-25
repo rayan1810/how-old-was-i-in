@@ -8,10 +8,10 @@ import {
   Heading,
   ChevronLeftIcon,
 } from "native-base";
-import { getAge } from "../utils";
 
 export const ShowAgeModal = (props) => {
-  const { setShowAge, showAge, dobDate, dobMonth, dobYear, checkYear } = props;
+  const { setShowAge, showAge, dobDate, dobMonth, dobYear, yearToBeChecked } =
+    props;
   const DarkGradients = [
     ["#D946EF", "#024FC7"],
     ["#F87171", "#3730A3"],
@@ -42,6 +42,11 @@ export const ShowAgeModal = (props) => {
     setlightGradientsArray(generateRandomLightGradient());
     setDarkGradientsArray(generateRandomDarkGradient());
   }, []);
+  const getAge = (dateOfBirth, currentDate) => {
+    var ageInMilliseconds = currentDate - dateOfBirth;
+    return Math.floor(ageInMilliseconds / 1000 / 60 / 60 / 24 / 365); // convert to years.
+  };
+
   return (
     <Modal isOpen={showAge} onClose={() => setShowAge(false)}>
       <Modal.Content maxWidth="400px">
@@ -51,7 +56,6 @@ export const ShowAgeModal = (props) => {
               _light={{
                 _web: {
                   style: {
-                    // @ts-ignore
                     backgroundImage:
                       "linear-gradient(135deg," + lightGradientsArray + ")",
                   },
@@ -60,7 +64,6 @@ export const ShowAgeModal = (props) => {
               _dark={{
                 _web: {
                   style: {
-                    // @ts-ignore
                     backgroundImage:
                       "linear-gradient(135deg," + darkGradientsArray + ")",
                   },
@@ -68,11 +71,11 @@ export const ShowAgeModal = (props) => {
               }}
               size="56"
             >
-              <Text>As of July 2, {checkYear}. You were</Text>
+              <Text>As of July 2, {yearToBeChecked}. You were</Text>
               <Heading>
                 {getAge(
                   new Date(dobYear, dobMonth - 1, dobDate),
-                  new Date(checkYear, 6, 2)
+                  new Date(yearToBeChecked, 6, 2)
                 )}{" "}
                 yrs Old
               </Heading>

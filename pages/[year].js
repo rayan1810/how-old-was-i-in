@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import React from "react";
 import Head from "next/head";
 import { Heading, Input, HStack, Center } from "native-base";
@@ -7,19 +6,18 @@ import {
   ShowAgeModal,
   ColorSwitcher,
 } from "../src/components";
+import { useRouter } from "next/router";
 
-export default function SlugApp() {
-  const [showModal, setShowModal] = React.useState(false);
+export default function App() {
+  const [showDatePicker, setShowDatePicker] = React.useState(false);
   const [showAge, setShowAge] = React.useState(false);
-  const [checkYear, setCheckYear] = React.useState("");
+  const [yearToBeChecked, setYearToBeChecked] = React.useState("");
   const [dobDate, setDobDate] = React.useState("");
   const [dobMonth, setDobMonth] = React.useState("");
   const [dobYear, setDobYear] = React.useState("");
-  const router = useRouter();
-  const { slug } = router.query;
   const datePickerModalProps = {
-    showModal,
-    setShowModal,
+    showDatePicker,
+    setShowDatePicker,
     setShowAge,
     dobDate,
     setDobDate,
@@ -27,9 +25,9 @@ export default function SlugApp() {
     setDobMonth,
     dobYear,
     setDobYear,
-    checkYear,
+    yearToBeChecked,
   };
-  const getAgeModalProps = {
+  const showAgeModalProps = {
     showAge,
     setShowAge,
     dobDate,
@@ -38,28 +36,31 @@ export default function SlugApp() {
     setDobMonth,
     dobYear,
     setDobYear,
-    checkYear,
+    yearToBeChecked,
   };
-  function openModalWhenCheckYearIsValid(year) {
+  function openModalWhenYearToBeCheckedIsValid(year) {
     if (year > 1900 && year < new Date().getFullYear()) {
-      setShowModal(true);
+      setShowDatePicker(true);
     } else {
-      setShowModal(false);
+      setShowDatePicker(false);
     }
   }
+  const router = useRouter();
+  const { year } = router.query; // get the year from url params
   React.useEffect(() => {
-    if (slug && slug.length === 4) {
-      setCheckYear(slug);
-      openModalWhenCheckYearIsValid(checkYear);
+    if (year && year.length === 4) {
+      setYearToBeChecked(year);
+      openModalWhenYearToBeCheckedIsValid(yearToBeChecked);
     }
-    if (checkYear.length === 4) {
-      openModalWhenCheckYearIsValid(checkYear);
+    if (yearToBeChecked.length === 4) {
+      openModalWhenYearToBeCheckedIsValid(yearToBeChecked);
     }
-  }, [checkYear, slug]);
+  }, [yearToBeChecked, year]);
+
   return (
     <>
       <Head>
-        <title>How old was I in {checkYear}?</title>
+        <title>How old was I in {yearToBeChecked}?</title>
       </Head>
       <Center
         _light={{ bg: "coolGray.50" }}
@@ -69,7 +70,7 @@ export default function SlugApp() {
         <HStack alignItems="center">
           <Heading size="2xl">How old was I in </Heading>
           <Input
-            onChangeText={setCheckYear}
+            onChangeText={setYearToBeChecked}
             w="90px"
             pb="1"
             fontSize="3xl"
@@ -80,7 +81,7 @@ export default function SlugApp() {
         </HStack>
         <ColorSwitcher />
         <DatePickerModal {...datePickerModalProps} />
-        <ShowAgeModal {...getAgeModalProps} />
+        <ShowAgeModal {...showAgeModalProps} />
       </Center>
     </>
   );

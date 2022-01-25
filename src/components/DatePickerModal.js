@@ -11,19 +11,16 @@ import {
 
 export const DatePickerModal = (props) => {
   const {
-    showModal,
-    setShowModal,
+    showDatePicker,
+    setShowDatePicker,
     setDobDate,
     setDobMonth,
     setDobYear,
     setShowAge,
   } = props;
-  //   const dates = arrayRangeGenerator(1, 31);
-  //   const months = arrayRangeGenerator(1, 12);
-  //   const years = arrayRangeGenerator(1940, new Date().getFullYear());
 
   return (
-    <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+    <Modal isOpen={showDatePicker} onClose={() => setShowDatePicker(false)}>
       <Modal.Content maxWidth="400px">
         <Modal.CloseButton />
         <Modal.Header>Just Wanted to know...</Modal.Header>
@@ -44,14 +41,14 @@ export const DatePickerModal = (props) => {
               variant="ghost"
               colorScheme="blueGray"
               onPress={() => {
-                setShowModal(false);
+                setShowDatePicker(false);
               }}
             >
               Go Back
             </Button>
             <Button
               onPress={() => {
-                setShowModal(false);
+                setShowDatePicker(false);
                 setShowAge(true);
               }}
             >

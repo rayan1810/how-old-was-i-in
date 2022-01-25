@@ -2,8 +2,8 @@ const withPlugins = require("next-compose-plugins");
 const withFonts = require("next-fonts");
 const withTM = require("next-transpile-modules")([
   "native-base",
-  "react-native-svg",
   "react-native-web",
+  "react-native-svg",
   "react-native-safe-area-context",
   "@react-aria/visually-hidden",
   "@react-native-aria/button",
